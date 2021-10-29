@@ -21,6 +21,18 @@ function readStoreJSON() {
 }
 readStoreJSON();
 
+function writeIntoStoreJson(store) {
+    fs.writeFile(
+      "./db/store.json",
+      JSON.stringify(store, null, 4),
+      "utf8",
+      function cb(err) {
+        if (err) {
+          res.status(500).send("Could not save data");
+        }
+      }
+    );
+}
 // Helper functions
 
 /**
@@ -216,16 +228,7 @@ router.post("/:entityType", (req, res) => {
   newEntity["id"] = id;
   entities.push(newEntity);
 
-  fs.writeFile(
-    "./db/store.json",
-    JSON.stringify(store, null, 4),
-    "utf8",
-    function cb(err) {
-      if (err) {
-        res.status(500).send("Could not save data");
-      }
-    }
-  );
+writeIntoStoreJson(store);
   res.send(newEntity);
 });
 // Update an existing entity rowby id
@@ -250,15 +253,7 @@ router.put("/:entityType/:id", (req, res) => {
     obj.id === mergedEntity.id ? mergedEntity : obj
   );
 
-  fs.writeFile(
-    "./db/store.json",
-    JSON.stringify(store, null, 4),
-    "utf8",
-    function cb(err) {
-      if (err) {
-      }
-    }
-  );
+writeIntoStoreJson(store)
   res.send(mergedEntity);
 });
 
@@ -268,17 +263,7 @@ router.delete("/:entityType/:id", (req, res) => {
   let id = req.params.id;
   if (removeEntityById(store, entityType, id) != -1) {
     res.send("Deleted Successfully");
-
-    fs.writeFile(
-      "./db/store.json",
-      JSON.stringify(store, null, 4),
-      "utf8",
-      function cb(err) {
-        if (err) {
-          res.status(500).send("Could not save data");
-        }
-      }
-    );
+ writeIntoStoreJson(store)
   } else {
     respondWith404(res);
   }
