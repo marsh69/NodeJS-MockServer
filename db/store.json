@@ -23,10 +23,11 @@
             "id": "8a47840e-12e7-4d19-ad75-1831a7e40e8e"
         }
     ],
-    "logicalAND": [
+    "user_profiles": [
         {
             "user": "2",
             "views": "300",
+            "comments":20,
             "id": "07869888-600b-406d-8298-c924285672de"
         }
     ]
